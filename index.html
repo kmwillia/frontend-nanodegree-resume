@@ -3,7 +3,19 @@
 	<meta charset="utf-8">
 	<title>Resume</title>
 	<link href="css/style.css" rel="stylesheet" type="text/css">
-	<link rel="import" href="components/polymer/polymer.html">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<!-- Polymer -->
+	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<link rel="import" href="bower_components/core-scaffold/core-scaffold.html">
+	<link rel="import" href="bower_components/core-pages/core-pages.html">
+	<link rel="import" href="bower_components/core-item/core-item.html">
+	<link rel="import" href="bower_components/core-icons/core-icons.html">
+	<link rel="import" href="bower_components/core-overlay/core-overlay.html">
+	<link rel="import" href="bower_components/paper-button/paper-button.html">
+	<link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+	<link rel="import" href="bower_components/paper-toast/paper-toast.html">
+	<link rel="import" href="bower_components/paper-input/paper-input.html">
+	<link rel="import" href="bower_components/paper-fab/paper-fab.html">
 	<script src="js/jQuery.js"></script>
 	<script src="js/helper.js"></script>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
@@ -11,28 +23,68 @@
 </head>
 <body unresolved>
 	<div id="main">
-		<div id="header" class="center-content clearfix">
-			<ul id="topContacts" class='flex-box'></ul>
-		</div>
-		<div style='clear: both;'></div>
-		<core-collapse><div id="workExperience" class='gray'>
-			<h2>Work Experience</h2>
-		</div></core-collapse>
-		<div id="projects">
-			<h2>Projects</h2>
-		</div>
-		<div id="education" class='gray'>
-			<h2>Education</h2>
-		</div>
-		<div id="mapDiv">
-			<h2>Where I've Lived and Worked</h2>
-		</div>
-		<div id="letsConnect" class='dark-gray'>
-			<h2 class='orange center-text'>Let's Connect</h2>
-				<ul id="footerContacts" class="flex-box">
-			</ul>
-		</div>
+		<core-scaffold>
+			<!-- Left Menu -->
+			<core-header-panel navigation flex>
+				<core-toolbar id="biobox" class="tall dark-gray">
+				</core-toolbar>
+				<section id="topContacts">
+					<ul></ul>
+				</section>
+			</core-header-panel>
+			<!-- Header & Tabs -->
+			<div id='tabs-container' tool layout horizontal flex>
+				<paper-tabs selected="0">
+					<paper-tab inline>Work</paper-tab>
+					<paper-tab inline>Projects</paper-tab>
+					<paper-tab inline>Education</paper-tab>
+					<paper-tab inline>Map</paper-tab>
+				</paper-tabs>
+			</div>
+			<!--  -->
+			<section layout vertical fit>
+				<core-pages>
+					<div id="workExperience" class="gray">
+						<h2>Work Experience</h2>
+					</div>
+					<div id="projects" class="gray">
+						<h2>Projects</h2>
+					</div>
+					<div id="education" class="gray">
+						<h2>School</h2>
+					</div>
+					<div id="mapDiv" class="gray">
+						<h2>Where I've Lived and Worked</h2>
+					</div>
+				</core-pages>
+			</section>
+		</core-scaffold>
+		<core-overlay id='letsConnectOverlay' backdrop>
+			<form id="overlayMessage" action="POST">
+				<core-toolbar>
+					<div id="overlayTitle">Let's Connect</div>
+					<paper-button id="sendMessage">
+						<core-icon icon="send" center-center></core-icon>
+					</paper-button>
+				</core-toolbar>
+				<paper-input-decorator id="p-in-sub" label="Subject" error="Please enter a subject" floatingLabel>
+					<input id="in-sub" is="core-input"pattern=".+" title="Subject">
+				</paper-input-decorator>
+				<br>
+				<paper-input-decorator id="p-in-mail" label="Email Address" error="Not a valid email address" floatingLabel>
+					<input id="in-mail" is="core-input" pattern="[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}" title="Email Address">
+				</paper-input-decorator>
+				<br>
+				<paper-input-decorator id="p-in-msg" label="Message" error="Please enter a message" floatingLabel>
+					<paper-autogrow-textarea>
+						<textarea id="in-msg" is="core-input"></textarea>
+					</paper-autogrow-textarea>
+				</paper-input-decorator>
+				<br>
+			</form>
+		</core-overlay>
 	</div>
+	<paper-toast id="toast1" text="Message Sent"></paper-toast>
 	<script src="js/resumeBuilder.js"></script>
 	<script type="text/javascript">
 		if(document.getElementsByClassName('flex-item').length === 0) {
