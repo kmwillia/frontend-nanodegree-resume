@@ -1,3 +1,4 @@
+//PERSONAL INFO
 var bio = {
 	name: "Kevin Williams",
 	role: "Web Developer",
@@ -12,6 +13,8 @@ var bio = {
 	skills: ["JavaScript","CSS","HTML","Python","Interpretive Dance","Japanese","Archery"],
 	biopic: "images/fry.jpg",
 	display: function() {
+		var $header = $('#header'),
+			$contacts = $('#topContacts');
 		//Contact Info
 		$contacts.append(HTMLmobile.replace('%data%', this.contacts.mobile));
 		$contacts.append(HTMLemail.replace('%data%', this.contacts.email));
@@ -25,27 +28,29 @@ var bio = {
 		$header.append(HTMLWelcomeMsg.replace('%data%', this.welcomeMessage));
 		//Skills
 		$header.append(HTMLskillsStart);
-		var $skillsList = $('#skills');
-		$.each(this.skills, function(index, skill) {
-			$skillsList.append(HTMLskills.replace('%data%', skill));
-		});
+		if(this.skills.length > 0) {
+			var $skillsList = $('#skills');
+			$.each(this.skills, function(index, skill) {
+				$skillsList.append(HTMLskills.replace('%data%', skill));
+			});
+		}
 	}
 };
 
-
+//WORK EXPERIENCE
 var work = {
 	jobs: [
 		{
 			employer: "Meditech",
 			url: "http://www.meditech.com",
 			title: "Development Programmer",
-			location: "Massachusetts",
+			location: "Canton, MA",
 			dates: "2012-Present",
 			description: "Development and Upkeep of new and existing medical software."
 		},
 		{
 			employer: "Interac",
-			website: "http://www.interac.co.jp",
+			url: "http://www.interac.co.jp",
 			title: "Assistant Language Teacher",
 			location: "Nagano, Japan",
 			dates: "2009-2012",
@@ -53,18 +58,21 @@ var work = {
 		}
 	],
 	display: function() {
-		$.each(this.jobs, function(index, job) {
-			$work.append(HTMLworkStart);
-			var $currWork = $work.children('.work-entry').last();
-			$currWork.append(HTMLworkEmployer.replace('%data%', job.employer) + HTMLworkTitle.replace('%data%', job.title));
-			$currWork.append(HTMLworkDates.replace('%data%', job.dates));
-			$currWork.append(HTMLworkLocation.replace('%data%', job.location));
-			$currWork.append(HTMLworkDescription.replace('%data%', job.description));
-		});
+		var $work = $('#workExperience');
+		if(this.jobs.length > 0) {
+			$.each(this.jobs, function(index, job) {
+				$work.append(HTMLworkStart);
+				var $currWork = $work.children('.work-entry').last();
+				$currWork.append(HTMLworkEmployer.replace('%data%', job.employer) + HTMLworkTitle.replace('%data%', job.title));
+				$currWork.append(HTMLworkDates.replace('%data%', job.dates));
+				$currWork.append(HTMLworkLocation.replace('%data%', job.location));
+				$currWork.append(HTMLworkDescription.replace('%data%', job.description));
+			});
+		}
 	}
 };
 
-
+//PROJECTS
 var projects = {
 	projects: [
 		{
@@ -89,16 +97,21 @@ var projects = {
 		}
 	],
 	display: function() {
-		$.each(this.projects, function(index, project) {
-			$projects.append(HTMLprojectStart);
-			var $currProject = $projects.children('.project-entry').last();
-			$currProject.append(HTMLprojectTitle.replace('%data%', project.title));
-			$currProject.append(HTMLprojectDates.replace('%data%', project.dates));
-			$currProject.append(HTMLprojectDescription.replace('%data%', project.description));
-			for(image in this.images) {
-				$currProject.append(HTMLprojectImage.replace('%data%', this.images[image]));
-			}
-		});
+		var $projects = $('#projects');
+		if(this.projects.length > 0) {
+			$.each(this.projects, function(index, project) {
+				$projects.append(HTMLprojectStart);
+				var $currProject = $projects.children('.project-entry').last();
+				$currProject.append(HTMLprojectTitle.replace('%data%', project.title));
+				$currProject.append(HTMLprojectDates.replace('%data%', project.dates));
+				$currProject.append(HTMLprojectDescription.replace('%data%', project.description));
+				if(this.images.length > 0) {
+					for(image in this.images) {
+						$currProject.append(HTMLprojectImage.replace('%data%', this.images[image]));
+					}
+				}
+			});
+		}
 	}
 };
 
@@ -116,6 +129,8 @@ var education = {
 		{
 			name: "Nagasaki College of Foreign Languages",
 			location: "Nagasaki, Japan",
+			degree: "",
+			majors: ["Japanese"],
 			dates: 2007,
 			url: "http://www.nagasaki-gaigo.ac.jp/"
 		}
@@ -129,37 +144,51 @@ var education = {
 		}
 	],
 	display: function() {
+		var $education = $('#education');
 		//Schools
-		$.each(this.schools, function(index, school) {
-			$education.append(HTMLschoolStart);
-			var $currSchool = $education.children('.education-entry').last();
-			$currSchool.append(HTMLschoolName.replace('%data%', school.name) + (school.degree ? HTMLschoolDegree.replace('%data%', school.degree) : ''));
-			$currSchool.append(HTMLschoolDates.replace('%data%', school.dates));
-			$currSchool.append(HTMLschoolLocation.replace('%data%', school.location));
-			$currSchool.append(HTMLschoolMajor.replace('%data%', school.majors ? school.majors.join(', ') : ''));
-		});
+		if(this.schools.length > 0) {
+			$.each(this.schools, function(index, school) {
+				$education.append(HTMLschoolStart);
+				var $currSchool = $education.children('.education-entry').last();
+				$currSchool.append(HTMLschoolName.replace('%data%', school.name) + (school.degree ? HTMLschoolDegree.replace('%data%', school.degree) : ''));
+				$currSchool.append(HTMLschoolDates.replace('%data%', school.dates));
+				$currSchool.append(HTMLschoolLocation.replace('%data%', school.location));
+				$currSchool.append(HTMLschoolMajor.replace('%data%', school.majors ? school.majors.join(', ') : ''));
+			});
+		}
 		//Online Courses
-		$education.append(HTMLonlineClasses);
-		$.each(this.onlineCourses, function(index, course) {
-			$education.append(HTMLschoolStart);
-			var $currCourse = $education.children('.education-entry').last();
-			$currCourse.append(HTMLonlineTitle.replace('%data%', course.title) + HTMLonlineSchool.replace('%data%', course.school));
-			$currCourse.append(HTMLonlineDates.replace('%data%', course.date));
-			$currCourse.append('<br>');
-		});
+		if(this.onlineCourses.length > 0) {
+			$education.append(HTMLonlineClasses);
+			$.each(this.onlineCourses, function(index, course) {
+				$education.append(HTMLschoolStart);
+				var $currCourse = $education.children('.education-entry').last();
+				$currCourse.append(HTMLonlineTitle.replace('%data%', course.title) + HTMLonlineSchool.replace('%data%', course.school));
+				$currCourse.append(HTMLonlineDates.replace('%data%', course.date));
+				$currCourse.append('<br>');
+			});
+		}
 	}
 };
-
-
-var $header = $('#header');
-var $contacts = $('#topContacts');
-var $work = $('#workExperience');
-var $education = $('#education');
-var $projects = $('#projects');
-var $map = $('#mapDiv');
 
 
 bio.display();
 work.display();
 projects.display();
 education.display();
+$('#main').append(internationalizeButton);
+$('#mapDiv').append(googleMap);
+
+
+$(document).click(function(event) {
+	logClicks(event.pageX, event.pageY);
+});
+
+
+function inName(name) {
+	name = name.trim().split(' ');
+	return name[0].slice(0,1).toUpperCase() + 
+		   name[0].slice(1) + 
+		   ' ' + 
+		   name[1].toUpperCase();
+}
+
